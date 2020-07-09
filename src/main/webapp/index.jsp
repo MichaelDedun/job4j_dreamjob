@@ -27,27 +27,14 @@
 
 <div class="container">
     <div class="row">
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">Объявление</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Дата создания</th>
-            </tr>
-            </thead>
-            <tbody>
-            <% for (Post post : Store.instOf().findAll()) { %>
-            <tr>
-                <td><%=post.getName()%>
-                </td>
-                <td><%=post.getDescription()%>
-                </td>
-                <td><%=post.getCreated()%>
-                </td>
-            </tr>
-            <% } %>
-            </tbody>
-        </table>
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/posts.jsp">Вакансии</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/candidates.jsp">Кандидаты</a>
+            </li>
+        </ul>
     </div>
 </div>
 

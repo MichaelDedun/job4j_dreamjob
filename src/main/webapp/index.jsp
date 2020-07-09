@@ -21,7 +21,7 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
             crossorigin="anonymous"></script>
 
-    <title>Dream job</title>
+    <title>Работа мечты</title>
 </head>
 <body>
 
@@ -35,6 +35,24 @@
                 <a class="nav-link" href="<%=request.getContextPath()%>/candidates.jsp">Кандидаты</a>
             </li>
         </ul>
+    </div>
+    <div class="row">
+        <div class="card" style="width: 100%">
+            <div class="card-header">
+                Сегоднящние вакансии.
+            </div>
+            <div class="card-body">
+            </div>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="card" style="width: 100%">
+            <div class="card-header">
+                Сегоднящние кандидаты.
+            </div>
+            <div class="card-body">
+            </div>
+        </div>
     </div>
 </div>
 

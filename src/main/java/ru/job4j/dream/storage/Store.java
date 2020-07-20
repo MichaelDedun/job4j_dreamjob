@@ -56,7 +56,7 @@ public class Store {
         return candidates.get(id);
     }
 
-    public Collection<Post> findAll() {
+    public Collection<Post> findAllPosts() {
         return posts.values();
     }
 

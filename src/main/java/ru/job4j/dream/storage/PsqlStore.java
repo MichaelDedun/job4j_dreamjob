@@ -18,7 +18,7 @@ public class PsqlStore implements Store {
     private PsqlStore() {
         Properties cfg = new Properties();
         try (BufferedReader io = new BufferedReader(
-                new FileReader("src/main/resources/db.properties")
+                new FileReader("db.properties")
         )) {
             cfg.load(io);
         } catch (Exception e) {
@@ -141,7 +141,7 @@ public class PsqlStore implements Store {
     }
 
     private void updatePost(Post post) {
-        try (Connection cn = pool.getConnection(); final PreparedStatement statement = cn.prepareStatement("UPDATE post SET name = ?, description = ?, created = ? WHERE id = ? ")) {
+        try (Connection cn = pool.getConnection(); final PreparedStatement statement = cn.prepareStatement("UPDATE post SET name = ?, description = ?, date = ? WHERE id = ? ")) {
             statement.setString(1, post.getName());
             statement.setString(2, post.getDescription());
             statement.setDate(3, java.sql.Date.valueOf(post.getCreated()));

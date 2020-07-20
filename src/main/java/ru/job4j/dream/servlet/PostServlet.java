@@ -16,7 +16,14 @@ public class PostServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
         req.setCharacterEncoding("UTF-8");
-        Store.instOf().save(new Post(0, req.getParameter("name"), req.getParameter("description"), LocalDate.parse(req.getParameter("created"), formatter)));
+        Store.instOf().save(
+                new Post(
+                        Integer.parseInt(req.getParameter("id")),
+                        req.getParameter("name"),
+                        req.getParameter("description"),
+                        LocalDate.parse(req.getParameter("created"), formatter)
+                )
+        );
         resp.sendRedirect(req.getContextPath() + "/post/posts.jsp");
     }
 

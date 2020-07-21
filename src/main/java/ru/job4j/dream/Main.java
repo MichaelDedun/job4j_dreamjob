@@ -16,7 +16,7 @@ public class Main {
             System.out.println(post.getId() + " " + post.getName());
         }
         System.out.println(store.findPostById(1));
-        store.save(new Candidate(0,"kek"));
+        store.save(new Candidate(0,"kek",""));
         for (Candidate candidate : store.findAllCandidates()) {
             System.out.println(candidate.getId() + " " + candidate.getName());
         }

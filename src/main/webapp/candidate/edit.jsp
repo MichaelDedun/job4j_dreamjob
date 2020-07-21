@@ -27,7 +27,7 @@
 <body>
 <%
     String id = request.getParameter("id");
-    Candidate candidate = new Candidate(0, "");
+    Candidate candidate = new Candidate(0, "", "");
     if (id != null) {
         candidate = PsqlStore.instOf().findCandidateById(Integer.parseInt(id));
     }
@@ -48,6 +48,10 @@
                     <div class="form-group">
                         <label>Имя</label>
                         <input type="text" class="form-control" name="name" value="<%=candidate.getName()%>">
+                        <label>Фотография</label>
+                        <div class="ui-icon"></div>
+                        <img src='<c:url value="/download?photoId=<%=candidate.getPhotoId()%>>" />' width="70px" height="70px"/>
+                        <input type="file" name="photoId">
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </form>

@@ -79,7 +79,8 @@ public class PsqlStore implements Store {
                 while (it.next()) {
                     candidates.add(new Candidate(
                                     it.getInt("id"),
-                                    it.getString("name")
+                                    it.getString("name"),
+                                    it.getString("photoId")
                             )
                     );
                 }
@@ -131,7 +132,7 @@ public class PsqlStore implements Store {
             statement.setInt(1, id);
             try (ResultSet set = statement.executeQuery()) {
                 if (set.next())
-                    candidate = new Candidate(set.getInt("id"), set.getString("name"));
+                    candidate = new Candidate(set.getInt("id"), set.getString("name"), set.getString("photoId"));
             }
             return candidate;
         } catch (SQLException e) {
@@ -185,15 +186,22 @@ public class PsqlStore implements Store {
     }
 
     private Candidate createCandidate(Candidate candidate) {
-        try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("INSERT INTO candidate(name) VALUES (?)", PreparedStatement.RETURN_GENERATED_KEYS)
+        try (Connection cn = pool.getConnection(); PreparedStatement psPhoto = cn.prepareStatement("INSERT INTO photo(name) VALUES (?)", PreparedStatement.RETURN_GENERATED_KEYS);
+             PreparedStatement psCand = cn.prepareStatement("INSERT INTO candidate(name,photo_id) VALUES (?,?)", PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
-            ps.setString(1, candidate.getName());
-            ps.execute();
-            try (ResultSet id = ps.getGeneratedKeys()) {
-                if (id.next()) {
-                    candidate.setId(id.getInt(1));
-                    candidate.setName(id.getString(2));
+            psPhoto.setString(1, candidate.getPhotoId());
+            psPhoto.execute();
+            try (ResultSet idPhoto = psPhoto.getGeneratedKeys()) {
+                psCand.setString(1, candidate.getName());
+                if (idPhoto.next()) {
+                    psCand.setInt(2, idPhoto.getInt(1));
+                }
+                psCand.execute();
+                try (ResultSet idCand = psCand.getGeneratedKeys()) {
+                    if (idCand.next()) {
+                        candidate.setId(idCand.getInt(1));
+                        candidate.setName(idCand.getString(2));
+                    }
                 }
             }
         } catch (Exception e) {

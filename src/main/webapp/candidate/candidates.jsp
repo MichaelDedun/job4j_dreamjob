@@ -36,7 +36,6 @@
                     <thead>
                     <tr>
                         <th scope="col">Названия</th>
-                        <th scope="col">Фотография</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -47,9 +46,6 @@
                                     <i class="fa fa-edit mr-3"></i>
                                 </a>
                                 <c:out value="${candidate.name}"/>
-                            </td>
-                            <td>
-                                <img src='<c:url value="/download?photoId=${candidate.photoId}"/>' width="70px" height="70px"/>
                             </td>
                         </tr>
                     </c:forEach>

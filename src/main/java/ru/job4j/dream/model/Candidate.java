@@ -5,12 +5,10 @@ import java.util.Objects;
 public class Candidate {
     private int id;
     private String name;
-    private String photoId;
 
-    public Candidate(int id, String name, String photoId) {
+    public Candidate(int id, String name) {
         this.id = id;
         this.name = name;
-        this.photoId = photoId;
     }
 
     public int getId() {
@@ -29,13 +27,6 @@ public class Candidate {
         this.name = name;
     }
 
-    public String getPhotoId() {
-        return photoId;
-    }
-
-    public void setPhotoId(String photoId) {
-        this.photoId = photoId;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -43,13 +34,12 @@ public class Candidate {
         if (o == null || getClass() != o.getClass()) return false;
         Candidate candidate = (Candidate) o;
         return id == candidate.id &&
-                Objects.equals(name, candidate.name) &&
-                Objects.equals(photoId, candidate.photoId);
+                Objects.equals(name, candidate.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, photoId);
+        return Objects.hash(id, name);
     }
 
     @Override
@@ -57,7 +47,6 @@ public class Candidate {
         return "Candidate{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", photoId='" + photoId + '\'' +
                 '}';
     }
 

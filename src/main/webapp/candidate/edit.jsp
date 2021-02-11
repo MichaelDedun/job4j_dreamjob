@@ -1,7 +1,7 @@
 <%@ page import="ru.job4j.dream.model.Candidate" %>
-<%@ page import="ru.job4j.dream.storage.MemStore" %>
 <%@ page import="ru.job4j.dream.storage.PsqlStore" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <!doctype html>
 <html lang="en">
 <head>
@@ -27,9 +27,13 @@
 <body>
 <%
     String id = request.getParameter("id");
-    Candidate candidate = new Candidate(0, "");
+    Candidate candidate = new Candidate(0, "", 0L);
     if (id != null) {
         candidate = PsqlStore.instOf().findCandidateById(Integer.parseInt(id));
+    }
+    String photoId = (String) request.getAttribute("photoId");
+    if (photoId == null && candidate.getId() > 0) {
+        photoId = String.valueOf(candidate.getPhotoId());
     }
 %>
 
@@ -37,9 +41,13 @@
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                <% if (id == null) { %>
-                Новый кандидат.
+                <% if (id == null) {
+                    if (photoId == null) { %>
+                <a href='<c:redirect url="/upload"/>'></a>
                 <% } else { %>
+                Новый кандидат.
+                <% }
+                } else { %>
                 Редактирование кандидата.
                 <% } %>
             </div>
@@ -48,6 +56,7 @@
                     <div class="form-group">
                         <label>Имя</label>
                         <input type="text" class="form-control" name="name" value="<%=candidate.getName()%>">
+                        <input type="hidden" name="photoId" value="<%=photoId%>">
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </form>

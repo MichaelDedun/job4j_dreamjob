@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -27,6 +27,30 @@
 
 <div class="container pt-3">
     <div class="row">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Вакансии</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Кандидаты</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.jsp">Добавить вакансию</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Добавить кандидата</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">Войти</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp"> <c:out value="${user.name}"/> |
+                    Выйти</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
                 Кандидаты
@@ -50,7 +74,8 @@
                                 <c:out value="${candidate.name}"/>
                             </td>
                             <td>
-                                <img src="<c:url value='/download?photoId=${candidate.photoId}'/>" width="100px" height="100px"/>
+                                <img src="<c:url value='/download?photoId=${candidate.photoId}'/>" width="100px"
+                                     height="100px"/>
                             </td>
                             <td>
                                 <a href="<c:url value='/download?photoId=${candidate.photoId}'/>">Загрузка</a>

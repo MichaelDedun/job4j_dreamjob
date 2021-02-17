@@ -4,6 +4,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Photo;
 import ru.job4j.dream.model.Post;
+import ru.job4j.dream.model.User;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -223,6 +224,44 @@ public class PsqlStore implements Store {
             e.printStackTrace();
         }
         return photo;
+    }
+
+    public User createUser(User user) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO user(name,email,password) VALUES (?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPassword());
+            if (ps.execute()) {
+                try (ResultSet set = ps.getGeneratedKeys()) {
+                    user.setId(set.getLong(1));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    public User findById(Long id) {
+        User user = null;
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM users WHERE id = ?")) {
+
+            ps.setLong(1, id);
+            try (ResultSet set = ps.executeQuery()) {
+                if (set.next()) {
+                    user = new User();
+                    user.setId(set.getLong("id"));
+                    user.setName(set.getString("name"));
+                    user.setEmail(set.getString("email"));
+                    user.setPassword(set.getString("password"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 
     @Override

@@ -3,7 +3,9 @@ package ru.job4j.dream.storage;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Photo;
 import ru.job4j.dream.model.Post;
+import ru.job4j.dream.model.User;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 public interface Store {
@@ -23,5 +25,11 @@ public interface Store {
     Photo findPhotoById(Long id);
 
     Photo savePhoto(Photo photo);
+
+    User createUser(User user) throws SQLException;
+
+    User findUserById(Long id);
+
+    User findUserByEmail(String email);
 
 }

@@ -56,6 +56,14 @@
         <servlet-name>AuthServlet</servlet-name>
         <url-pattern>/auth.do</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>RegistrationServlet</servlet-name>
+        <servlet-class>ru.job4j.dream.servlet.RegistrationServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegistrationServlet</servlet-name>
+        <url-pattern>/reg.do</url-pattern>
+    </servlet-mapping>
     <filter>
         <filter-name>AuthFilter</filter-name>
         <filter-class>ru.job4j.dream.servlet.AuthFilter</filter-class>

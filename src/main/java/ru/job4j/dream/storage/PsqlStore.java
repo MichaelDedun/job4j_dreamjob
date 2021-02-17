@@ -226,9 +226,10 @@ public class PsqlStore implements Store {
         return photo;
     }
 
-    public User createUser(User user) {
+    @Override
+    public User createUser(User user) throws SQLException {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("INSERT INTO user(name,email,password) VALUES (?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement ps = cn.prepareStatement("INSERT INTO users (name,email,password) VALUES (?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getPassword());
@@ -237,18 +238,39 @@ public class PsqlStore implements Store {
                     user.setId(set.getLong(1));
                 }
             }
+        }
+        return user;
+    }
+
+    @Override
+    public User findUserById(Long id) {
+        User user = null;
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM users WHERE id = ?")) {
+
+            ps.setLong(1, id);
+            try (ResultSet set = ps.executeQuery()) {
+                if (set.next()) {
+                    user = new User();
+                    user.setId(set.getLong("id"));
+                    user.setName(set.getString("name"));
+                    user.setEmail(set.getString("email"));
+                    user.setPassword(set.getString("password"));
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return user;
     }
 
-    public User findById(Long id) {
+    @Override
+    public User findUserByEmail(String email) {
         User user = null;
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("SELECT * FROM users WHERE id = ?")) {
+             PreparedStatement ps = cn.prepareStatement("SELECT * FROM users WHERE email = ?")) {
 
-            ps.setLong(1, id);
+            ps.setString(1, email);
             try (ResultSet set = ps.executeQuery()) {
                 if (set.next()) {
                     user = new User();

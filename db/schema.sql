@@ -15,3 +15,10 @@ CREATE TABLE candidate (
     name TEXT,
     photo_id INTEGER REFERENCES photo("id")
 );
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name TEXT,
+    email TEXT UNIQUE,
+    password TEXT
+);

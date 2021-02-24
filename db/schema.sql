@@ -5,6 +5,11 @@ CREATE TABLE post (
    date TIMESTAMP
 );
 
+create TABLE city (
+    id SERIAL PRIMARY KEY,
+    name TEXT
+);
+
 CREATE TABLE photo (
     id SERIAL PRIMARY KEY,
     name TEXT
@@ -22,3 +27,5 @@ CREATE TABLE users (
     email TEXT UNIQUE,
     password TEXT
 );
+
+alter table candidate add column city_id INTEGER REFERENCES city(id);

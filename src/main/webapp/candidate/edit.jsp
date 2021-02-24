@@ -1,7 +1,8 @@
 <%@ page import="ru.job4j.dream.model.Candidate" %>
 <%@ page import="ru.job4j.dream.storage.PsqlStore" %>
+<%@ page import="ru.job4j.dream.model.City" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c' %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -23,11 +24,13 @@
             crossorigin="anonymous"></script>
 
     <title>Работа мечты</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
 </head>
-<body>
+<body onload="getCities()">
 <%
     String id = request.getParameter("id");
-    Candidate candidate = new Candidate(0, "", 0L);
+    Candidate candidate = new Candidate(0, "", 0L, 0);
     if (id != null) {
         candidate = PsqlStore.instOf().findCandidateById(Integer.parseInt(id));
     }
@@ -35,7 +38,35 @@
     if (photoId == null && candidate.getId() > 0) {
         photoId = String.valueOf(candidate.getPhotoId());
     }
+
 %>
+<script>
+    function getCities() {
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/dreamjob/city.do",
+            dataType: 'json',
+        })
+            .done(function (data) {
+                debugger;
+                let cities = "";
+                for (let i = 0; i < data.length; i++) {
+                    cities += "<option value=" + data[i]['id'] + ">" + data[i]['name'] + "</option>";
+                }
+                $('#city').html(cities);
+            })
+            .fail(function (err) {
+                alert("error" + err);
+            })
+    }
+    function validate() {
+        if ($('#name').val() === '' || $('#city').val() === '') {
+            alert('Заполните форму');
+            return false;
+        }
+        return true;
+    }
+</script>
 
 <div class="container pt-3">
     <div class="row">
@@ -55,10 +86,15 @@
                 <form action="<%=request.getContextPath()%>/candidates.do?id=<%=candidate.getId()%>" method="post">
                     <div class="form-group">
                         <label>Имя</label>
-                        <input type="text" class="form-control" name="name" value="<%=candidate.getName()%>">
+                        <input id="name" type="text" class="form-control" name="name" value="<%=candidate.getName()%>">
                         <input type="hidden" name="photoId" value="<%=photoId%>">
                     </div>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <div class="form-group">
+                        <label for="city">Город:</label>
+                        <select class="form-control" id="city" name="cityId">
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" onclick="return validate()">Сохранить</button>
                 </form>
             </div>
         </div>

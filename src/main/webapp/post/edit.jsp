@@ -26,6 +26,16 @@
 </head>
 <body>
 
+<script>
+    function validate() {
+        if ($('#name').val() === '' || $('#description').val() === '' || $('#created').val() === '') {
+            alert('Заполните форму');
+            return false;
+        }
+        return true;
+    }
+</script>
+
 <%
     String id = request.getParameter("id");
     Post post = new Post(0, "", "", LocalDate.now());
@@ -48,17 +58,19 @@
                 <form action="<%=request.getContextPath()%>/posts.do?id=<%=post.getId()%>" method="post">
                     <div class="form-group">
                         <label>Имя</label>
-                        <input type="text" class="form-control" name="name" value="<%=post.getName()%>">
+                        <input type="text" class="form-control" name="name" id="name" value="<%=post.getName()%>">
                     </div>
                     <div class="form-group">
                         <label>Описание</label>
-                        <input type="text" class="form-control" name="description" value="<%=post.getDescription()%>">
+                        <input type="text" class="form-control" name="description" id="description"
+                               value="<%=post.getDescription()%>">
                     </div>
                     <div class="form-group">
                         <label>Дата создания</label>
-                        <input type="text" class="form-control" name="created" value="<%=post.getCreated()%>">
+                        <input type="text" class="form-control" name="created" id="created"
+                               value="<%=post.getCreated()%>">
                     </div>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="submit" class="btn btn-primary" onclick="validate()">Сохранить</button>
                 </form>
             </div>
         </div>

@@ -6,11 +6,13 @@ public class Candidate {
     private int id;
     private String name;
     private Long photoId;
+    private Integer cityId;
 
-    public Candidate(int id, String name, Long photoId) {
+    public Candidate(int id, String name, Long photoId, Integer cityId) {
         this.id = id;
         this.name = name;
         this.photoId = photoId;
+        this.cityId = cityId;
     }
 
     public int getId() {
@@ -38,6 +40,15 @@ public class Candidate {
         return this;
     }
 
+    public Integer getCityId() {
+        return cityId;
+    }
+
+    public Candidate setCityId(Integer cityId) {
+        this.cityId = cityId;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -45,12 +56,13 @@ public class Candidate {
         Candidate candidate = (Candidate) o;
         return id == candidate.id &&
                 Objects.equals(name, candidate.name) &&
-                Objects.equals(photoId, candidate.photoId);
+                Objects.equals(photoId, candidate.photoId) &&
+                Objects.equals(cityId, candidate.cityId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, photoId);
+        return Objects.hash(id, name, photoId, cityId);
     }
 
     @Override
@@ -59,6 +71,7 @@ public class Candidate {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", photoId=" + photoId +
+                ", cityId=" + cityId +
                 '}';
     }
 }

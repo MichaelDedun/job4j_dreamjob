@@ -1,9 +1,6 @@
 package ru.job4j.dream.storage;
 
-import ru.job4j.dream.model.Candidate;
-import ru.job4j.dream.model.Photo;
-import ru.job4j.dream.model.Post;
-import ru.job4j.dream.model.User;
+import ru.job4j.dream.model.*;
 
 import java.sql.SQLException;
 import java.util.Collection;
@@ -13,6 +10,8 @@ public interface Store {
     Collection<Post> findAllPosts();
 
     Collection<Candidate> findAllCandidates();
+
+    Collection<City> findAllCities();
 
     void save(Post post);
 
@@ -27,6 +26,8 @@ public interface Store {
     Photo savePhoto(Photo photo);
 
     User createUser(User user) throws SQLException;
+
+    City findCityById(Integer id);
 
     User findUserById(Long id);
 
